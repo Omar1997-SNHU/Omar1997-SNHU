@@ -26,9 +26,9 @@
   <p class="eyebrow">CS 499 · Computer Science Capstone · Southern New Hampshire University</p>
   <h1>Omar <em>Barajas</em></h1>
   <p class="lede">
-    Full-stack developer specializing in the MEAN stack — Angular, TypeScript, Node.js, MongoDB.
-    This ePortfolio documents a single evolving artifact, the Travlr Getaways application,
-    enhanced across three computer science disciplines to demonstrate growth across the program.
+Full-stack developer specializing in the MEAN stack — Angular, TypeScript, Node.js, MongoDB.  This ePortfolio 
+    is basically about one single evolving artifact, the Travlr Getaways application, enhanced across three computer
+    science disciplines, to show growth across the program in a way that makes sense.
   </p>
   <div class="btn-row">
     <a class="btn btn-primary" href="code-review.html">Watch Code Review →</a>
@@ -41,91 +41,87 @@
   <h2>Professional Self-Assessment</h2>
 
   <p>
-    Completing the Computer Science program at Southern New Hampshire University, and building this
-    ePortfolio in particular, has clarified what kind of engineer I want to be: someone who can take
-    an existing system, understand why it works the way it does, and make deliberate, well-justified
-    improvements rather than rewrites for their own sake. Every artifact in this portfolio is the same
-    application — Travlr Getaways, a MEAN stack travel booking platform — carried through three
-    distinct rounds of enhancement. That choice was intentional. Showing depth on one system, rather
-    than breadth across three disconnected ones, let me demonstrate how decisions in one layer of an
-    application ripple into the others.
+ Completing the Computer Science program at Southern New Hampshire University, and building this ePortfolio
+    in particular, has made things clearer about what kind of engineer I want to be: someone who can take 
+    an existing system, figure out why it works the way it does, and make deliberate, well-justified 
+    improvements rather than doing a rewrite just because. Every artifact in this portfolio is the same application
+    Travlr Getaways , a MEAN stack travel booking platform, carried through three distinct rounds of enhancement.
+    That was not an accident. Picking one system, instead of showing everything as separate little projects, let me
+    show depth on one place, and also show how decisions in one layer ripple into the others, even if they are not
+    obvious at first glance.
   </p>
 
   <h3>Collaborating in a Team Environment</h3>
   <p>
-    Throughout the program, courses like CS 250 (Software Development Lifecycle) and IT 315
-    (Object-Oriented Analysis and Design) required producing design documentation meant for an audience
-    beyond myself — UML diagrams, sprint plans, and peer code reviews. IT 145 (Foundation in Application
-    Development) was where I first practiced writing code with a reader other than myself in mind, a
-    habit that shows up directly in this capstone: every enhanced file in the Travlr Getaways codebase
-    carries JSDoc or TSDoc comments explaining not just what a function does but why it was written that
-    way, so a teammate picking up the code six months from now does not have to reverse-engineer my
-    reasoning. The code review video in this portfolio is itself a collaboration artifact — it is written
-    for a manager or peer audience, not a grader, and walks through existing functionality before any
-    enhancement is proposed, which is the same sequence I would use to bring a real team up to speed
-    before touching shared code.
+Throughout the program, courses like CS 250 (Software Development Lifecycle) and IT 315 (Object-Oriented Analysis and
+    Design) pushed me to produce design documentation meant for an audience beyond myself, things like UML diagrams,
+    sprint plans, and peer code reviews. IT 145 (Foundation in Application Development) is where I first practiced writing
+    code with a reader in mind, not just “whoever is future me”, and yeah that habit shows up directly in this capstone:
+    every enhanced file in the Travlr Getaways codebase includes JSDoc or TSDoc comments explaining not only what a 
+    function does, but also why it was written that way. That way a teammate who picks up the code six months from now 
+    does not have to reverse-engineer my reasoning , or guess what I intended. The code review video in this portfolio is, kinda,
+    a collaboration artifact more than anything else. It’s written for a manager or a peer audience, not a grader, and it walks
+    through what already exists before any enhancement is proposed. That’s the same order I would use to bring a real team up to
+    speed before touching shared code, honestly.
   </p>
 
   <h3>Communicating with Stakeholders</h3>
   <p>
-    Technical communication has to flex to its audience. The narratives in this portfolio are written
-    for an audience that understands software broadly but may not know Angular or MongoDB internals —
-    the same skill required when explaining a technical trade-off to a product manager or a client.
-    In CS 320 (Software Testing, Automation, and Quality Assurance), I practiced translating defect
-    reports into plain-language risk statements for non-technical stakeholders, a skill I applied again
-    here when justifying why, for example, increasing password-hashing iterations from 1,000 to 100,000
-    matters even to someone who has never heard of PBKDF2.
+    Technical communication has to flex to its audience. The narratives here are aimed at people who understand
+    software broadly, but they might not know Angular or MongoDB internals. That’s a different kind of skill than
+    explaining, say, a trade-off especially when you have to talk to a product manager or a client. In CS 320 (Software
+    Testing, Automation, and Quality Assurance), I practiced translating defect reports into plain-language risk statements
+    for non-technical stakeholders, and I used that same approach again here when I justify why increasing password-
+    hashing iterations from 1,000 to 100,000 matters even if someone has never heard of PBKDF2.
   </p>
 
   <h3>Data Structures and Algorithms</h3>
   <p>
-    Enhancement Two is the clearest evidence of this strength: a Map-based O(1) cache, a binary search
-    over a sorted index, and a generic comparator-based sort that correctly handles string, numeric, and
-    date fields in a single function. These are not abstract exercises — CS 260 (Data Structures and
-    Algorithms) gave me the vocabulary to reason about Big-O complexity, but applying that reasoning to
-    a real price filter and a real search box, where the wrong data type choice silently produces wrong
-    sort order, is what made the trade-offs concrete rather than theoretical.
+   Enhancement Two is probably the clearest evidence of this strength. You get a Map based O(1) cache, a binary
+    search over a sorted index, and a generic comparator-based sort that correctly handles string, numeric, and
+    date fields in a single function. These aren’t just abstract exercises. CS 260 (Data Structures and Algorithms)
+    gave me the vocabulary to reason about Big-O complexity, but applying that logic to a real price filter and a real
+    search box where the wrong data type choice can quietly produce the wrong sort order is what made the trade-offs
+    feel concrete instead of theoretical.
   </p>
 
   <h3>Software Engineering and Database</h3>
   <p>
-    Enhancement One demonstrates software design maturity: migrating a dual-rendering architecture
-    (Express/Handlebars plus a separate Angular SPA) into a single, lazy-loaded Angular front end is the
-    same category of architectural consolidation that production teams perform when technical debt
-    accumulates. Enhancement Three extends that maturity into the database layer — redesigning the
-    Mongoose schema, adding compound indexes, and migrating a price field from String to Number after
-    recognizing that the original type choice was quietly breaking numeric sorting upstream in the
-    Angular layer. DAD 220 (Introduction to SQL) gave me the relational foundation that made the
-    trade-offs of a document-oriented schema easier to reason about by contrast — when to embed versus
-    reference, and why a type decision at the schema level has consequences no relational analogy fully
-    prepared me for. CS 360 (Mobile Architecture and Programming) reinforced the same lesson from a
-    different angle, where data formatting decisions on a constrained client have to be made deliberately
-    rather than inherited from whatever the backend happened to send. Seeing the schema-to-algorithm
-    connection in this capstone — a database decision causing a sorting bug two layers away — was one of
-    the most valuable realizations of the whole program.
+Enhancement One shows software design maturity, like when you take a dual-rendering setup (Express/Handlebars
+    plus a separate Angular SPA) and kind of fold it into one lazy-loaded Angular front end, it is the same rough
+    class of architectural consolidation production teams do when technical debt slowly piles up. Enhancement Three
+    then extends that maturity down into the database layer, redesigning the Mongoose schema, adding compound indexes,
+    and migrating a price field from a String to a Number after noticing that the original type choice was quietly
+    messing up numeric sorting upstream in the Angular layer. DAD 220 (Introduction to SQL) gave me the relational
+    groundwork that made the trade-offs of a document-oriented schema easier to reason about, sort of helping me compare
+    when to embed versus reference and also why a type decision at the schema level can have consequences that no purely
+    relational analogy really prepared me for. CS 360 (Mobile Architecture and Programming) reinforced the same lesson from 
+    another angle, where data formatting decisions on a constrained client have to be intentional, not just inherited from 
+    whatever the backend happened to output. Seeing that schema-to-algorithm link in this capstone, like a database choice
+    creating a sorting bug two layers away, was honestly one of the most valuable realizations of the entire program.
   </p>
 
   <h3>Security</h3>
   <p>
-    A security mindset runs through all three enhancements rather than living in just one. Removing the
-    Handlebars rendering layer in Enhancement One eliminates a server-side template injection surface.
-    The sort allowlist in Enhancement Two's API controller prevents arbitrary field injection into a
-    MongoDB <code>.sort()</code> call. Enhancement Three directly hardens authentication: PBKDF2
-    iterations were raised to meet current NIST guidance, and an account lockout mechanism was added to
-    resist credential-stuffing attacks. CS 305 (Software Security) gave me the foundation for this kind
-    of thinking — treating every input boundary as a place an adversary might probe — and this capstone
-    is where that foundation became a habit applied without being prompted.
+    A security mindset shows up across all three enhancements, not just in one place. Removing the Handlebars
+    rendering layer in Enhancement One reduces a server-side template injection surface. The sort allowlist in
+    Enhancement Two’s API controller prevents arbitrary field injection into a MongoDB .sort() call. Enhancement
+    Three also directly tightens authentication, PBKDF2 iterations were raised to match current NIST guidance, 
+    and an account ,lockout mechanism was added to resist credential-stuffing attacks. CS 305 (Software Security)
+    gave me the foundation for this kind of thinking treating every input boundary as a place an adversary might
+    probe  and this capstone  is where that foundation became a habit applied without being prompted.
   </p>
 
   <h3>How the Artifacts Fit Together</h3>
   <p>
-    Each enhancement builds on the architecture left by the one before it. Enhancement One unifies the
-    front end into a single Angular codebase and establishes typed domain models. Enhancement Two adds
-    search, sort, and caching logic on top of that typed foundation, exposing a price-formatting problem
-    that traces back to the original database schema. Enhancement Three resolves that problem at its
-    source by hardening the schema itself and the authentication system around it. The three enhancements
-    that follow are presented in that same order — software engineering and design, algorithms and data
-    structures, and databases — so the architectural story reads the way it was actually built.
+    Each enhancement kinda builds on what the previous one left behind in the architecture. Enhancement One
+    brings the whole front end together into one Angular codebase and sets up typed domain models, which feels
+    neat. Then Enhancement Two sits on that typed foundation and it adds search, sort, and caching logic , but
+    along the way it exposes a price formatting problem that you can trace back to the original database schema.
+    Enhancement Three then fixes that issue at the source by hardening the schema itself and the authentication 
+    system around it, so it stops slipping through. After those three, the next enhancements are presented in that
+    same sequence software engineering and design, algorithms and data structures, and databases , so the 
+    architectural narrative matches how it was really built.
   </p>
 
   <div class="callout">
