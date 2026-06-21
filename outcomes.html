@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Outcomes — Omar Barajas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topnav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OB<span>.</span>portfolio</a>
+    <nav>
+      <a href="index.html">Self-Assessment</a>
+      <a href="code-review.html">Code Review</a>
+      <a href="enhancement-one.html">Enh. 1</a>
+      <a href="enhancement-two.html">Enh. 2</a>
+      <a href="enhancement-three.html">Enh. 3</a>
+      <a href="outcomes.html" class="active">Outcomes</a>
+    </nav>
+  </div>
+</div>
+
+<section>
+  <p class="section-label">Program Alignment</p>
+  <h2>Course Outcomes Summary</h2>
+
+  <p>
+    The table below maps each of the five Computer Science program outcomes to where it is
+    demonstrated across this ePortfolio — the code review, the three enhancements, and this
+    self-assessment taken together.
+  </p>
+
+  <table>
+    <tr><th>Outcome</th><th>Description</th><th>Demonstrated Through</th></tr>
+    <tr>
+      <td><strong>CO1</strong></td>
+      <td>Collaborative environments that enable diverse audiences to support organizational decision-making</td>
+      <td>Modular Angular architecture (Enh. 1), JSDoc/TSDoc throughout, code review video written for a peer/manager audience</td>
+    </tr>
+    <tr>
+      <td><strong>CO2</strong></td>
+      <td>Professional-quality oral, written, and visual communications</td>
+      <td>Code review video, three written narratives, this self-assessment, audience-differentiated documentation in Enh. 1</td>
+    </tr>
+    <tr>
+      <td><strong>CO3</strong></td>
+      <td>Algorithmic principles and computing practices with managed design trade-offs</td>
+      <td>O(1) Map cache, O(log n) binary search, O(n log n) generic comparator sort (Enh. 2); schema type decision traced to algorithmic impact (Enh. 3)</td>
+    </tr>
+    <tr>
+      <td><strong>CO4</strong></td>
+      <td>Well-founded, innovative techniques and tools to implement solutions that deliver value</td>
+      <td>Angular lazy loading and reactive forms (Enh. 1); RxJS cache pipeline (Enh. 2); Mongoose schema redesign and connection pooling (Enh. 3)</td>
+    </tr>
+    <tr>
+      <td><strong>CO5</strong></td>
+      <td>Security mindset that anticipates adversarial exploits and mitigates design flaws</td>
+      <td>Removal of HBS template injection surface (Enh. 1); sort-field allowlist (Enh. 2); PBKDF2 hardening and login lockout (Enh. 3)</td>
+    </tr>
+  </table>
+
+  <h3>One Artifact, Three Lenses</h3>
+  <p>
+    All three enhancements were performed on the same artifact — the Travlr Getaways application —
+    rather than three unrelated projects. This was a deliberate choice: it lets the portfolio show how
+    a single architectural decision echoes across layers. The clearest example is the
+    <code>perPerson</code> field. It started as a string in the original database schema (pre-dating
+    this capstone), which forced a workaround in the Enhancement Two sort algorithm, which was only
+    resolved at its root in Enhancement Three by correcting the schema itself. Tracing that thread end
+    to end is, in many ways, the actual thesis of this ePortfolio.
+  </p>
+
+  <div class="callout">
+    <strong>Source code:</strong> the original artifact and Enhancements 1–2 live on the
+    <code>module7</code> branch of
+    <a href="https://github.com/Omar1997-SNHU/Fullstack-Dev/tree/module7" target="_blank" rel="noopener">Fullstack-Dev</a>.
+    The final, authoritative Enhancement 3 database work is on the <code>Enhancement3</code> branch of
+    <a href="https://github.com/Omar1997-SNHU/CS-Capstone/tree/Enhancement3" target="_blank" rel="noopener">CS-Capstone</a>,
+    which serves as the capstone repository going forward.
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="enhancement-three.html"><span class="dir">← Back</span>Enhancement 3: Databases</a>
+    <a class="next" href="index.html"><span class="dir">↺ Restart</span>Self-Assessment</a>
+  </div>
+</section>
+
+<footer>Omar Barajas · CS 499 Capstone · Southern New Hampshire University</footer>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enhancement Three: Databases — Omar Barajas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topnav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OB<span>.</span>portfolio</a>
+    <nav>
+      <a href="index.html">Self-Assessment</a>
+      <a href="code-review.html">Code Review</a>
+      <a href="enhancement-one.html">Enh. 1</a>
+      <a href="enhancement-two.html">Enh. 2</a>
+      <a href="enhancement-three.html" class="active">Enh. 3</a>
+      <a href="outcomes.html">Outcomes</a>
+    </nav>
+  </div>
+</div>
+
+<section>
+  <p class="section-label">Enhancement Three</p>
+  <h2>Databases</h2>
+
+  <p class="pill-row">
+    <span class="pill co">CO3</span>
+    <span class="pill co">CO4</span>
+    <span class="pill co">CO5</span>
+  </p>
+
+  <div class="callout">
+    <strong>Source:</strong> the original pre-enhancement artifact is on the <code>module7</code>
+    branch of <a href="https://github.com/Omar1997-SNHU/Fullstack-Dev/tree/module7" target="_blank" rel="noopener">Fullstack-Dev</a>.
+    The enhanced database layer is the authoritative final version, committed to the
+    <code>Enhancement3</code> branch of
+    <a href="https://github.com/Omar1997-SNHU/CS-Capstone/tree/Enhancement3" target="_blank" rel="noopener">CS-Capstone</a>.
+  </div>
+
+  <h3>1. Artifact Description</h3>
+  <p>
+    Same artifact across all three enhancements: the Travlr Getaways MEAN stack application. The
+    database layer consists of a MongoDB instance managed through Mongoose, with two collections —
+    <code>trips</code> and <code>users</code>. The original schema had minimal indexing, stored
+    <code>perPerson</code> as a string, used PBKDF2 with only 1,000 hashing iterations, and had no
+    connection pooling, reconnect logic, or account lockout protection.
+  </p>
+
+  <h3>2. Justification &amp; Improvement</h3>
+  <p>
+    This artifact was selected because its database layer had concrete, demonstrable weaknesses with
+    real security and performance consequences. <code>perPerson</code> was migrated from
+    <strong>String to Number</strong>, enabling proper numeric range queries and removing the
+    string-stripping workaround required in the Enhancement Two sort algorithm. A
+    <strong>compound index</strong> on <code>{ start: 1, code: 1 }</code> was added for the common
+    sort-then-lookup pattern. PBKDF2 iterations were raised from 1,000 to <strong>100,000</strong>,
+    matching current NIST guidance, and a <strong>login-attempt lockout</strong> mechanism was added to
+    resist credential-stuffing attacks. <code>db.js</code> also gained connection-pool configuration and
+    automatic reconnect logic.
+  </p>
+
+  <h3>Before / After: Trip Schema</h3>
+  <div class="compare">
+    <div class="panel before">
+      <div class="panel-head">BEFORE</div>
+      <pre><code>const tripSchema = new mongoose.Schema({
+  code: { type: String, required: true, index: true },
+  perPerson: { type: String, required: true }
+  // no unique constraint, no
+  // compound index, no Review schema
+});</code></pre>
+    </div>
+    <div class="panel after">
+      <div class="panel-head">AFTER</div>
+      <pre><code>const tripSchema = new mongoose.Schema({
+  code: { type: String, required: true, unique: true },
+  perPerson: {
+    type: Number, required: true,
+    min: [0, 'Price must be positive']
+  },
+  reviews: [reviewSchema]
+});
+
+tripSchema.index({ start: 1, code: 1 });</code></pre>
+    </div>
+  </div>
+
+  <h3>Security Hardening — Password Hashing &amp; Account Lockout</h3>
+  <p class="code-label">app_api/models/user.js</p>
+  <pre><code>// NIST SP 800-132 recommends >=100,000 iterations for SHA-512
+const PBKDF2_ITERATIONS = 100000;
+const MAX_LOGIN_ATTEMPTS = 5;
+const LOCK_TIME_MS = 15 * 60 * 1000;
+
+userSchema.methods.setPassword = function (password) {
+  this.salt = crypto.randomBytes(16).toString('hex');
+  this.hash = crypto.pbkdf2Sync(
+    password, this.salt, PBKDF2_ITERATIONS, 64, 'sha512'
+  ).toString('hex');
+};
+
+userSchema.methods.recordFailedLogin = async function () {
+  this.loginAttempts += 1;
+  if (this.loginAttempts >= MAX_LOGIN_ATTEMPTS) {
+    this.lockUntil = new Date(Date.now() + LOCK_TIME_MS);
+  }
+  await this.save();
+  return { locked: this.isLocked };
+};</code></pre>
+
+  <h3>Connection Resilience</h3>
+  <p class="code-label">app_api/models/db.js</p>
+  <pre><code>const CONNECTION_OPTIONS = {
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000
+};
+
+mongoose.connection.on('disconnected', () => {
+  console.warn('[DB] Disconnected — retrying in 5s…');
+  setTimeout(connect, 5000);   // auto-reconnect
+});</code></pre>
+
+  <h3>3. Course Outcome Alignment</h3>
+  <table>
+    <tr><th>Outcome</th><th>How It Was Met</th></tr>
+    <tr><td><strong>CO4</strong></td><td>The schema redesign, indexing strategy, and connection-pool configuration demonstrate professional-level MongoDB/Mongoose practice.</td></tr>
+    <tr><td><strong>CO5</strong></td><td>Raising PBKDF2 iterations to 100,000 directly addresses a documented vulnerability in the original model; the lockout mechanism anticipates credential-stuffing attacks.</td></tr>
+    <tr><td><strong>CO3</strong> <em>(partial)</em></td><td>Migrating <code>perPerson</code> to <code>Number</code> eliminates the regex-strip workaround from Enhancement Two, showing awareness of how a schema decision affects algorithmic correctness upstream.</td></tr>
+  </table>
+
+  <h3>4. Reflection</h3>
+  <div class="qa">
+    <p class="q"><span class="num">→</span> What was the key lesson?</p>
+    <p class="a">How a single schema decision propagates as technical debt through every layer above it. The string-typed <code>perPerson</code> field forced a regex workaround in the sort algorithm and made price-range queries impossible to express without an aggregation pipeline. Migrating it to <code>Number</code> simplified three other files simultaneously.</p>
+  </div>
+  <div class="qa">
+    <p class="q"><span class="num">→</span> What was the biggest challenge?</p>
+    <p class="a">Deciding how to implement account lockout. I considered a TTL-based auto-unlock, which requires a background index scan, versus a timestamp comparison evaluated on every login attempt. I chose the timestamp comparison since it requires no additional index and has zero background overhead for a collection this size — a deliberate trade-off rather than a default choice.</p>
+  </div>
+  <div class="qa">
+    <p class="q"><span class="num">→</span> Which outcomes were not fully met?</p>
+    <p class="a">CO1 (collaborative environments) was only partially addressed in this enhancement specifically — the database layer changes were made independently rather than through a documented review cycle with a team. That gap is addressed more directly in Enhancement One's modular architecture work.</p>
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="enhancement-two.html"><span class="dir">← Back</span>Enhancement 2: Algorithms &amp; Data Structures</a>
+    <a class="next" href="outcomes.html"><span class="dir">Next →</span>Course Outcomes Summary</a>
+  </div>
+</section>
+
+<footer>Omar Barajas · CS 499 Capstone · Southern New Hampshire University</footer>
+
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enhancement Two: Algorithms &amp; Data Structures — Omar Barajas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topnav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OB<span>.</span>portfolio</a>
+    <nav>
+      <a href="index.html">Self-Assessment</a>
+      <a href="code-review.html">Code Review</a>
+      <a href="enhancement-one.html">Enh. 1</a>
+      <a href="enhancement-two.html" class="active">Enh. 2</a>
+      <a href="enhancement-three.html">Enh. 3</a>
+      <a href="outcomes.html">Outcomes</a>
+    </nav>
+  </div>
+</div>
+
+<section>
+  <p class="section-label">Enhancement Two</p>
+  <h2>Algorithms &amp; Data Structures</h2>
+
+  <p class="pill-row">
+    <span class="pill co">CO2</span>
+    <span class="pill co">CO3</span>
+    <span class="pill co">CO4</span>
+    <span class="pill co">CO5</span>
+  </p>
+
+  <div class="callout">
+    <strong>Source:</strong> original and enhanced files for this category live on the
+    <code>module7</code> branch of
+    <a href="https://github.com/Omar1997-SNHU/Fullstack-Dev/tree/module7" target="_blank" rel="noopener">Fullstack-Dev</a>.
+  </div>
+
+  <h3>1. Artifact Description</h3>
+  <p>
+    Same artifact as Enhancement One: the Travlr Getaways MEAN stack application. In its
+    pre-enhancement state, the API returned all trip documents in insertion order with no sorting,
+    filtering, or pagination, and the Angular front end rendered every trip as a flat list with no
+    way to search or reorder results.
+  </p>
+
+  <h3>2. Justification &amp; Improvement</h3>
+  <p>
+    This artifact is well suited to this category because trip search, sort, and retrieval performance
+    have concrete, user-facing consequences. The enhancement adds a client-side <strong>Map cache</strong>
+    (O(1) lookup by trip code), a <strong>binary search</strong> over a code-sorted array, a
+    <strong>linear keyword filter</strong> across name, resort, and description, a generic
+    <strong>comparison sort</strong> handling string, numeric, and date fields, and a
+    <strong>price-range filter</strong>. On the server, a MongoDB sort/skip/limit pipeline adds
+    server-side pagination, guarded by an <strong>allowlist</strong> that validates the requested sort
+    field before it reaches <code>.sort()</code>.
+  </p>
+
+  <h3>Client-Side Algorithm — Binary Search &amp; Sort</h3>
+  <p class="code-label">app_admin/src/app/services/trip-data.ts</p>
+  <pre><code>// Binary search O(log n): input must be sorted ascending by code
+binarySearchByCode(sortedTrips: Trip[], code: string): Trip | null {
+  let lo = 0, hi = sortedTrips.length - 1;
+  const target = code.toUpperCase();
+  while (lo <= hi) {
+    const mid = Math.floor((lo + hi) / 2);
+    const midCode = sortedTrips[mid].code.toUpperCase();
+    if (midCode === target) return sortedTrips[mid];
+    if (midCode < target) lo = mid + 1; else hi = mid - 1;
+  }
+  return null;
+}
+
+// Timsort O(n log n): generic comparator for string, numeric, and date fields
+sortTrips(trips: Trip[], field: SortField, order: SortOrder = 'asc'): Trip[] {
+  return [...trips].sort((a, b) => {
+    if (field === 'perPerson') {
+      return order === 'asc' ? a.perPerson - b.perPerson : b.perPerson - a.perPerson;
+    }
+    if (field === 'start') {
+      const va = new Date(a.start).getTime();
+      const vb = new Date(b.start).getTime();
+      return order === 'asc' ? va - vb : vb - va;
+    }
+    const va = (a[field] as string).toLowerCase();
+    const vb = (b[field] as string).toLowerCase();
+    const cmp = va < vb ? -1 : va > vb ? 1 : 0;
+    return order === 'asc' ? cmp : -cmp;
+  });
+}</code></pre>
+
+  <h3>Server-Side Algorithm — Sort Allowlist + Pagination</h3>
+  <p class="code-label">app_api/controllers/trips.js</p>
+  <pre><code>// Allowlist: prevents arbitrary field injection into .sort()
+const SORTABLE_FIELDS = new Set(['name', 'perPerson', 'start', 'resort', 'length']);
+
+const tripsList = async (req, res) => {
+  const { sortBy = 'start', order = 'asc', page = 1, limit = 10, q } = req.query;
+
+  const sortField = SORTABLE_FIELDS.has(sortBy) ? sortBy : 'start';
+  const sortDir   = order === 'desc' ? -1 : 1;
+  const pageNum   = Math.max(1, parseInt(page, 10) || 1);
+  const limitNum  = Math.min(50, Math.max(1, parseInt(limit, 10) || 10));
+  const skip      = (pageNum - 1) * limitNum;
+
+  const query = q
+    ? { $or: [{ name: { $regex: q, $options: 'i' } }, { resort: { $regex: q, $options: 'i' } }] }
+    : {};
+
+  const trips = await Trip.find(query).sort({ [sortField]: sortDir }).skip(skip).limit(limitNum);
+  return res.status(200).json(trips);
+};</code></pre>
+
+  <h3>3. Course Outcome Alignment</h3>
+  <table>
+    <tr><th>Outcome</th><th>How It Was Met</th></tr>
+    <tr><td><strong>CO3</strong></td><td>The cache demonstrates a hash-map structure with O(1) complexity; the binary search demonstrates divide-and-conquer at O(log n); the sort demonstrates Timsort via a generic comparator at O(n log n).</td></tr>
+    <tr><td><strong>CO5</strong></td><td>The <code>SORTABLE_FIELDS</code> allowlist was a deliberate security decision — without it, a malicious <code>sortBy</code> query parameter could probe internal Mongoose fields or cause unexpected query behavior.</td></tr>
+    <tr><td><strong>CO4</strong> <em>(partial)</em></td><td>Use of Angular's <code>Observable</code> pipeline with <code>tap</code> operators to populate the cache as a side effect of normal data flow.</td></tr>
+  </table>
+
+  <h3>4. Reflection</h3>
+  <div class="qa">
+    <p class="q"><span class="num">→</span> What was the key lesson?</p>
+    <p class="a">The <code>perPerson</code> sort was the most instructive challenge. The field was originally stored as a string (e.g. "$1,995.00"), so a lexicographic sort produced wrong results — "9800" sorted before "4999" alphabetically but after it numerically. Writing the comparator required stripping non-numeric characters before parsing, which made clear how a schema-level type decision has direct algorithmic consequences three layers away.</p>
+  </div>
+  <div class="qa">
+    <p class="q"><span class="num">→</span> What was the biggest design decision?</p>
+    <p class="a">Where to place filtering — client-side (fast, no round-trip, but limited by dataset size) versus server-side (scalable, but adds latency per keystroke). I implemented both layers, which taught me that the right answer depends on dataset size and should be an explicit, documented trade-off rather than an unstated assumption.</p>
+  </div>
+
+  <div class="page-nav">
+    <a class="prev" href="enhancement-one.html"><span class="dir">← Back</span>Enhancement 1: Software Design</a>
+    <a class="next" href="enhancement-three.html"><span class="dir">Next →</span>Enhancement 3: Databases</a>
+  </div>
+</section>
+
+<footer>Omar Barajas · CS 499 Capstone · Southern New Hampshire University</footer>
+
+</body>
+</html>

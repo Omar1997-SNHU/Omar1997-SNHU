@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Review — Omar Barajas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topnav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OB<span>.</span>portfolio</a>
+    <nav>
+      <a href="index.html">Self-Assessment</a>
+      <a href="code-review.html" class="active">Code Review</a>
+      <a href="enhancement-one.html">Enh. 1</a>
+      <a href="enhancement-two.html">Enh. 2</a>
+      <a href="enhancement-three.html">Enh. 3</a>
+      <a href="outcomes.html">Outcomes</a>
+    </nav>
+  </div>
+</div>
+
+<section>
+  <p class="section-label">Milestone One</p>
+  <h2>Informal Code Review</h2>
+
+  <p>
+    The video below walks through the original Travlr Getaways artifact before any enhancement work
+    began. It covers existing functionality, a code analysis identifying specific areas for improvement,
+    and the planned enhancements for each of the three categories that follow on this site.
+  </p>
+
+  <div class="video-embed">
+    <!--
+      STATUS: Video has been recorded. Upload to YouTube as "Unlisted," then replace
+      YOUR_VIDEO_ID below with the ID from the video URL.
+      Example: https://www.youtube.com/watch?v=dQw4w9WgXcQ → YOUR_VIDEO_ID = dQw4w9WgXcQ
+    -->
+    <iframe
+      src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+      title="CS 499 Code Review — Omar Barajas"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <p class="video-note">↑ Recorded — pending upload. Update the embed src above with the YouTube video ID once published as Unlisted.</p>
+
+  <h3>What the Review Covers</h3>
+
+  <div class="grid-3">
+    <div class="card">
+      <h4>Existing Functionality</h4>
+      <p>A walkthrough of the Travlr Getaways MEAN stack application as originally built in CS 465 — the Express/Handlebars customer site, the Angular admin SPA, and the MongoDB data layer.</p>
+    </div>
+    <div class="card">
+      <h4>Code Analysis</h4>
+      <p>Specific issues identified: dual front-end rendering paradigms, O(n) linear search with no caching, a string-typed price field, weak password hashing, and missing schema-level validation.</p>
+    </div>
+    <div class="card">
+      <h4>Enhancement Plan</h4>
+      <p>The planned fix for each issue, and which of the five course outcomes each enhancement is expected to address — detailed further on each enhancement page.</p>
+    </div>
+  </div>
+
+  <h3>Audience</h3>
+  <p>
+    This review is recorded for a peer or manager audience rather than an instructor — it focuses on
+    explaining how the code works and why each enhancement is worth doing, without assuming the viewer
+    already knows the Travlr Getaways codebase.
+  </p>
+
+  <h3>Milestone Submissions</h3>
+  <p>
+    This capstone was built across four milestones. Milestone One is this code review video. Milestones
+    Two through Four are the enhancement narratives, each submitted as a Word document and also presented
+    on the enhancement pages of this site.
+  </p>
+  <table>
+    <tr><th>Milestone</th><th>Deliverable</th><th>Where to Find It</th></tr>
+    <tr><td><strong>M1</strong></td><td>Code Review (video)</td><td>This page, above</td></tr>
+    <tr><td><strong>M2</strong></td><td>Enhancement One: Software Design &amp; Engineering (narrative .docx)</td><td><a href="enhancement-one.html">Enhancement 1 page →</a></td></tr>
+    <tr><td><strong>M3</strong></td><td>Enhancement Two: Algorithms &amp; Data Structure (narrative .docx)</td><td><a href="enhancement-two.html">Enhancement 2 page →</a></td></tr>
+    <tr><td><strong>M4</strong></td><td>Enhancement Three: Databases (narrative .docx)</td><td><a href="enhancement-three.html">Enhancement 3 page →</a></td></tr>
+  </table>
+
+  <div class="page-nav">
+    <a class="prev" href="index.html"><span class="dir">← Back</span>Self-Assessment</a>
+    <a class="next" href="enhancement-one.html"><span class="dir">Next →</span>Enhancement 1: Software Design</a>
+  </div>
+</section>
+
+<footer>Omar Barajas · CS 499 Capstone · Southern New Hampshire University</footer>
+
+</body>
+</html>

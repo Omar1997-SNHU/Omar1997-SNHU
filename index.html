@@ -1,642 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Omar Barajas — CS Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg: #0c0f14;
-      --surface: #13171f;
-      --surface2: #1c2230;
-      --border: #252d3d;
-      --accent: #4a9eff;
-      --accent2: #7bc8a4;
-      --accent3: #f4a261;
-      --text: #e8edf5;
-      --muted: #8892a4;
-      --code-bg: #0d1117;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* ─── NAV ─── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.2rem 3rem;
-      background: rgba(12, 15, 20, 0.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.3rem;
-      color: var(--accent);
-      text-decoration: none;
-    }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 400;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--accent); }
-
-    /* ─── HERO ─── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 8rem 3rem 5rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 60px 60px;
-      opacity: 0.3;
-    }
-    .hero-glow {
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(74, 158, 255, 0.12) 0%, transparent 70%);
-      top: 50%; left: 60%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-    .hero-content { position: relative; z-index: 1; max-width: 700px; }
-    .hero-tag {
-      display: inline-block;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 0.3rem 0.8rem;
-      border-radius: 2px;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.08em;
-      animation: fadeUp 0.6s ease both;
-    }
-    .hero h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(3rem, 6vw, 5.5rem);
-      line-height: 1.05;
-      margin-bottom: 1rem;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-    .hero h1 em {
-      font-style: italic;
-      color: var(--accent);
-    }
-    .hero-desc {
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 520px;
-      margin-bottom: 2.5rem;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-    .hero-btns {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      animation: fadeUp 0.6s 0.3s ease both;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.75rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: all 0.2s;
-      cursor: pointer;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #0c0f14;
-      border: 1px solid var(--accent);
-    }
-    .btn-primary:hover { background: #6eb3ff; border-color: #6eb3ff; }
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ─── SECTION SHARED ─── */
-    section { padding: 6rem 3rem; }
-    .section-inner { max-width: 1000px; margin: 0 auto; }
-    .section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      color: var(--accent2);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      margin-bottom: 1rem;
-      line-height: 1.15;
-    }
-    .section-divider {
-      width: 48px; height: 3px;
-      background: var(--accent);
-      margin-bottom: 3rem;
-      border-radius: 2px;
-    }
-
-    /* ─── ABOUT ─── */
-    #about { background: var(--surface); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: start;
-    }
-    .about-text p { color: var(--muted); margin-bottom: 1rem; }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-    }
-    .skill-tag {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      padding: 0.5rem 0.9rem;
-      border-radius: 4px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.82rem;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .skill-tag::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      flex-shrink: 0;
-    }
-
-    /* ─── ENHANCEMENTS ─── */
-    #enhancements { background: var(--bg); }
-    .enhancement-cards { display: flex; flex-direction: column; gap: 2rem; }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
-      transition: border-color 0.2s, transform 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-    .card:nth-child(1)::before { background: var(--accent); }
-    .card:nth-child(2)::before { background: var(--accent2); }
-    .card:nth-child(3)::before { background: var(--accent3); }
-    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
-    .card-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .card-num {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-    }
-    .card-badge {
-      font-size: 0.78rem;
-      padding: 0.25rem 0.7rem;
-      border-radius: 20px;
-      font-family: 'DM Mono', monospace;
-    }
-    .badge-blue { background: rgba(74,158,255,0.15); color: var(--accent); }
-    .badge-green { background: rgba(123,200,164,0.15); color: var(--accent2); }
-    .badge-orange { background: rgba(244,162,97,0.15); color: var(--accent3); }
-    .card h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.5rem;
-      margin-bottom: 0.75rem;
-    }
-    .card p { color: var(--muted); margin-bottom: 1rem; }
-    .code-snippet {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 1rem 1.25rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      color: #8cb4ff;
-      overflow-x: auto;
-      margin-top: 1rem;
-    }
-    .code-snippet .comment { color: #4a5568; }
-    .code-snippet .kw { color: var(--accent2); }
-    .code-snippet .str { color: var(--accent3); }
-    .outcomes-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-    .outcome-tag {
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      padding: 0.3rem 0.7rem;
-      border-radius: 3px;
-      font-size: 0.78rem;
-      color: var(--muted);
-      font-family: 'DM Mono', monospace;
-    }
-
-    /* ─── OUTCOMES TABLE ─── */
-    #outcomes { background: var(--surface); }
-    .outcomes-table { width: 100%; border-collapse: collapse; }
-    .outcomes-table th {
-      text-align: left;
-      padding: 0.9rem 1.2rem;
-      background: var(--surface2);
-      border-bottom: 2px solid var(--border);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--accent);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .outcomes-table td {
-      padding: 1rem 1.2rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 0.92rem;
-      vertical-align: top;
-    }
-    .outcomes-table td:first-child {
-      font-family: 'DM Mono', monospace;
-      color: var(--accent);
-      white-space: nowrap;
-      font-size: 0.85rem;
-    }
-    .outcomes-table tr:hover td { background: rgba(255,255,255,0.02); }
-
-    /* ─── GITHUB ─── */
-    #github {
-      background: var(--bg);
-      text-align: center;
-    }
-    .github-card {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 3rem 4rem;
-      max-width: 600px;
-      width: 100%;
-    }
-    .github-icon {
-      width: 56px; height: 56px;
-      background: var(--surface2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-    }
-    .github-card h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.8rem;
-    }
-    .github-card p { color: var(--muted); max-width: 380px; }
-    .repo-link {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.85rem;
-      color: var(--accent);
-      background: rgba(74,158,255,0.1);
-      padding: 0.5rem 1rem;
-      border-radius: 4px;
-      border: 1px solid rgba(74,158,255,0.3);
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .repo-link:hover { background: rgba(74,158,255,0.2); }
-
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1rem; }
-      section { padding: 4rem 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .hero { padding: 7rem 1.5rem 4rem; }
-      .github-card { padding: 2rem 1.5rem; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omar Barajas — CS 499 ePortfolio</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a class="nav-logo" href="#top">OB</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#enhancements">Enhancements</a></li>
-      <li><a href="#outcomes">Outcomes</a></li>
-      <li><a href="#github">GitHub</a></li>
-    </ul>
-  </nav>
+<div class="topnav">
+  <div class="wrap">
+    <a href="index.html" class="brand">OB<span>.</span>portfolio</a>
+    <nav>
+      <a href="index.html" class="active">Self-Assessment</a>
+      <a href="code-review.html">Code Review</a>
+      <a href="enhancement-one.html">Enh. 1</a>
+      <a href="enhancement-two.html">Enh. 2</a>
+      <a href="enhancement-three.html">Enh. 3</a>
+      <a href="outcomes.html">Outcomes</a>
+    </nav>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <section class="hero" id="top">
-    <div class="hero-grid"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-      <span class="hero-tag">CS 499 · Computer Science Capstone</span>
-      <h1>Omar<br /><em>Barajas</em></h1>
-      <p class="hero-desc">
-        Full-stack developer specializing in the MEAN stack — Angular, TypeScript, Node.js, MongoDB. 
-        Building secure, efficient, and maintainable production systems.
-      </p>
-      <div class="hero-btns">
-        <a class="btn btn-primary" href="#enhancements">View Enhancements</a>
-        <a class="btn btn-ghost" href="#github">GitHub Repo ↗</a>
-      </div>
-    </div>
-  </section>
+<div class="hero">
+  <p class="eyebrow">CS 499 · Computer Science Capstone · Southern New Hampshire University</p>
+  <h1>Omar <em>Barajas</em></h1>
+  <p class="lede">
+    Full-stack developer specializing in the MEAN stack — Angular, TypeScript, Node.js, MongoDB.
+    This ePortfolio documents a single evolving artifact, the Travlr Getaways application,
+    enhanced across three computer science disciplines to demonstrate growth across the program.
+  </p>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="code-review.html">Watch Code Review →</a>
+    <a class="btn btn-ghost" href="https://github.com/Omar1997-SNHU/CS-Capstone" target="_blank" rel="noopener">View Source on GitHub ↗</a>
+  </div>
+</div>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-inner">
-      <div class="section-label">// self-introduction</div>
-      <h2 class="section-title">About Me</h2>
-      <div class="section-divider"></div>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            I have spent two years in the Computer Science program studying application development, data structures, software testing, full-stack web development, and software security.
-          </p>
-          <p>
-            I designed a full-stack MEAN application for Travlr Getaways (CS 465), deepened my skills in object-oriented design and automated testing, and gained hands-on experience with software security — including dependency analysis, input validation, and countering adversarial attacks (CS 305).
-          </p>
-          <p>
-            My capstone centers on a single evolving artifact — the Travlr Getaways app — refined across three enhancement categories: Software Engineering & Design, Algorithms & Data Structures, and Databases.
-          </p>
-        </div>
-        <div>
-          <p style="color: var(--muted); margin-bottom: 1.25rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500;">Technical Skills</p>
-          <div class="skills-grid">
-            <div class="skill-tag">Angular</div>
-            <div class="skill-tag">TypeScript</div>
-            <div class="skill-tag">Node.js / Express</div>
-            <div class="skill-tag">MongoDB / Mongoose</div>
-            <div class="skill-tag">RxJS</div>
-            <div class="skill-tag">JWT Auth</div>
-            <div class="skill-tag">RBAC Middleware</div>
-            <div class="skill-tag">JSDoc / TSDoc</div>
-            <div class="skill-tag">REST APIs</div>
-            <div class="skill-tag">Reactive Forms</div>
-            <div class="skill-tag">Lazy Loading</div>
-            <div class="skill-tag">Secure Software Dev</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<section class="tight">
+  <p class="section-label">Introduction</p>
+  <h2>Professional Self-Assessment</h2>
 
-  <!-- ENHANCEMENTS -->
-  <section id="enhancements">
-    <div class="section-inner">
-      <div class="section-label">// capstone artifact</div>
-      <h2 class="section-title">Enhancement Plan</h2>
-      <div class="section-divider"></div>
+  <p>
+    Completing the Computer Science program at Southern New Hampshire University, and building this
+    ePortfolio in particular, has clarified what kind of engineer I want to be: someone who can take
+    an existing system, understand why it works the way it does, and make deliberate, well-justified
+    improvements rather than rewrites for their own sake. Every artifact in this portfolio is the same
+    application — Travlr Getaways, a MEAN stack travel booking platform — carried through three
+    distinct rounds of enhancement. That choice was intentional. Showing depth on one system, rather
+    than breadth across three disconnected ones, let me demonstrate how decisions in one layer of an
+    application ripple into the others.
+  </p>
 
-      <div class="enhancement-cards">
+  <h3>Collaborating in a Team Environment</h3>
+  <p>
+    Throughout the program, courses like CS 250 (Software Development Lifecycle) and IT 315
+    (Object-Oriented Analysis and Design) required producing design documentation meant for an audience
+    beyond myself — UML diagrams, sprint plans, and peer code reviews. IT 145 (Foundation in Application
+    Development) was where I first practiced writing code with a reader other than myself in mind, a
+    habit that shows up directly in this capstone: every enhanced file in the Travlr Getaways codebase
+    carries JSDoc or TSDoc comments explaining not just what a function does but why it was written that
+    way, so a teammate picking up the code six months from now does not have to reverse-engineer my
+    reasoning. The code review video in this portfolio is itself a collaboration artifact — it is written
+    for a manager or peer audience, not a grader, and walks through existing functionality before any
+    enhancement is proposed, which is the same sequence I would use to bring a real team up to speed
+    before touching shared code.
+  </p>
 
-        <!-- Card 1 -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-num">CATEGORY ONE</span>
-            <span class="card-badge badge-blue">Software Engineering &amp; Design</span>
-          </div>
-          <h3>Full Angular Migration</h3>
-          <p>
-            The Travlr Getaways application currently maintains two separate rendering paradigms — a customer-facing site built with Express and Handlebars (HBS) templates, and an Angular admin SPA connected to a REST API. The enhancement migrates the entire customer-facing layer to Angular, eliminating server-side template rendering and unifying the codebase.
-          </p>
-          <p>
-            Angular feature modules with lazy loading (<code>TripListModule</code>, <code>TripDetailModule</code>, <code>HomeModule</code>) replace HBS controllers and partials. TypeScript interfaces are defined for all domain entities. Reactive forms with validators and reusable components (<code>NavbarComponent</code>, <code>TripCardComponent</code>) are added throughout.
-          </p>
-          <div class="code-snippet">
-<span class="comment">// BEFORE: HBS server-renders customer pages</span>
-<span class="comment">// AFTER:  Angular renders all pages; Express serves API only</span>
+  <h3>Communicating with Stakeholders</h3>
+  <p>
+    Technical communication has to flex to its audience. The narratives in this portfolio are written
+    for an audience that understands software broadly but may not know Angular or MongoDB internals —
+    the same skill required when explaining a technical trade-off to a product manager or a client.
+    In CS 320 (Software Testing, Automation, and Quality Assurance), I practiced translating defect
+    reports into plain-language risk statements for non-technical stakeholders, a skill I applied again
+    here when justifying why, for example, increasing password-hashing iterations from 1,000 to 100,000
+    matters even to someone who has never heard of PBKDF2.
+  </p>
 
-{ path: <span class="str">''</span>,            loadChildren: HomeModule }
-{ path: <span class="str">'trips'</span>,       loadChildren: TripListModule }
-{ path: <span class="str">'trips/:code'</span>, loadChildren: TripDetailModule }
-{ path: <span class="str">'admin'</span>,       loadChildren: AdminModule }
-          </div>
-          <div class="outcomes-list">
-            <span class="outcome-tag">CO1 · Collaborative Environments</span>
-            <span class="outcome-tag">CO2 · Professional Communication</span>
-            <span class="outcome-tag">CO4 · Innovative Techniques</span>
-            <span class="outcome-tag">CO5 · Security Mindset</span>
-          </div>
-        </div>
+  <h3>Data Structures and Algorithms</h3>
+  <p>
+    Enhancement Two is the clearest evidence of this strength: a Map-based O(1) cache, a binary search
+    over a sorted index, and a generic comparator-based sort that correctly handles string, numeric, and
+    date fields in a single function. These are not abstract exercises — CS 260 (Data Structures and
+    Algorithms) gave me the vocabulary to reason about Big-O complexity, but applying that reasoning to
+    a real price filter and a real search box, where the wrong data type choice silently produces wrong
+    sort order, is what made the trade-offs concrete rather than theoretical.
+  </p>
 
-        <!-- Card 2 -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-num">CATEGORY TWO</span>
-            <span class="card-badge badge-green">Algorithms &amp; Data Structures</span>
-          </div>
-          <h3>O(1) Cache &amp; Search Pipeline</h3>
-          <p>
-            Currently, the application calls the API on every navigation and uses <code>Array.find()</code> — an O(n) linear scan — for trip lookups. The enhancement introduces <code>TripCacheService</code>, an RxJS <code>BehaviorSubject</code>-backed in-memory cache with a <code>Map</code> for O(1) keyed access.
-          </p>
-          <p>
-            A client-side filter pipeline adds real-time search by name, resort, and price using <code>Array.filter()</code> with <code>debounceTime(300)</code>. Index-based pagination with <code>Array.slice()</code> provides O(1) page retrieval. The narrative documents explicit trade-off analysis between Map memory cost vs. lookup speed and client-side vs. server-side filtering.
-          </p>
-          <div class="code-snippet">
-<span class="kw">class</span> TripCacheService {
-  _trips$ = <span class="kw">new</span> BehaviorSubject&lt;Trip[]&gt;([])
-  _tripMap = <span class="kw">new</span> Map&lt;string, Trip&gt;()   <span class="comment">// O(1) keyed access</span>
+  <h3>Software Engineering and Database</h3>
+  <p>
+    Enhancement One demonstrates software design maturity: migrating a dual-rendering architecture
+    (Express/Handlebars plus a separate Angular SPA) into a single, lazy-loaded Angular front end is the
+    same category of architectural consolidation that production teams perform when technical debt
+    accumulates. Enhancement Three extends that maturity into the database layer — redesigning the
+    Mongoose schema, adding compound indexes, and migrating a price field from String to Number after
+    recognizing that the original type choice was quietly breaking numeric sorting upstream in the
+    Angular layer. DAD 220 (Introduction to SQL) gave me the relational foundation that made the
+    trade-offs of a document-oriented schema easier to reason about by contrast — when to embed versus
+    reference, and why a type decision at the schema level has consequences no relational analogy fully
+    prepared me for. CS 360 (Mobile Architecture and Programming) reinforced the same lesson from a
+    different angle, where data formatting decisions on a constrained client have to be made deliberately
+    rather than inherited from whatever the backend happened to send. Seeing the schema-to-algorithm
+    connection in this capstone — a database decision causing a sorting bug two layers away — was one of
+    the most valuable realizations of the whole program.
+  </p>
 
-  getByCode(code) → _tripMap.<span class="kw">get</span>(code)   <span class="comment">// O(1) vs O(n)</span>
-  filter(query, maxPrice) → Array.filter() <span class="comment">// no API call</span>
-}
+  <h3>Security</h3>
+  <p>
+    A security mindset runs through all three enhancements rather than living in just one. Removing the
+    Handlebars rendering layer in Enhancement One eliminates a server-side template injection surface.
+    The sort allowlist in Enhancement Two's API controller prevents arbitrary field injection into a
+    MongoDB <code>.sort()</code> call. Enhancement Three directly hardens authentication: PBKDF2
+    iterations were raised to meet current NIST guidance, and an account lockout mechanism was added to
+    resist credential-stuffing attacks. CS 305 (Software Security) gave me the foundation for this kind
+    of thinking — treating every input boundary as a place an adversary might probe — and this capstone
+    is where that foundation became a habit applied without being prompted.
+  </p>
 
-searchInput$.pipe(
-  debounceTime(<span class="str">300</span>), distinctUntilChanged()
-).subscribe(r => displayPage(r, pageIndex))
-          </div>
-          <div class="outcomes-list">
-            <span class="outcome-tag">CO2 · Professional Communication</span>
-            <span class="outcome-tag">CO3 · Algorithmic Principles</span>
-            <span class="outcome-tag">CO4 · Innovative Techniques</span>
-          </div>
-        </div>
+  <h3>How the Artifacts Fit Together</h3>
+  <p>
+    Each enhancement builds on the architecture left by the one before it. Enhancement One unifies the
+    front end into a single Angular codebase and establishes typed domain models. Enhancement Two adds
+    search, sort, and caching logic on top of that typed foundation, exposing a price-formatting problem
+    that traces back to the original database schema. Enhancement Three resolves that problem at its
+    source by hardening the schema itself and the authentication system around it. The three enhancements
+    that follow are presented in that same order — software engineering and design, algorithms and data
+    structures, and databases — so the architectural story reads the way it was actually built.
+  </p>
 
-        <!-- Card 3 -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-num">CATEGORY THREE</span>
-            <span class="card-badge badge-orange">Databases</span>
-          </div>
-          <h3>Schema Hardening &amp; RBAC</h3>
-          <p>
-            The existing MongoDB/Mongoose system validates only basic data types. The enhancement adds comprehensive schema validation (required fields, numeric bounds, enums, regex for <code>tripCode</code>), a <code>role</code> field on the User schema, and role-embedded JWT tokens.
-          </p>
-          <p>
-            An Express middleware <code>verifyRole</code> is applied to all mutating routes (POST, PUT, DELETE), returning 403 Forbidden for unauthorized access. Unique and compound indexes are added for performance (<code>trips.code</code>, <code>users.email</code>, <code>resort + perPersonCost</code>), and a seed script generates 15+ realistic trip documents.
-          </p>
-          <div class="code-snippet">
-<span class="comment">// Schema hardening</span>
-TripSchema = {
-  code: { String, required, match: <span class="str">/^[A-Z]{3,5}\d{4}$/</span> },
-  perPersonCost: { Number, min: <span class="str">0</span>, max: <span class="str">100000</span> }
-}
-UserSchema = { role: { <span class="kw">enum</span>: [<span class="str">'admin'</span>,<span class="str">'read-only'</span>,<span class="str">'guest'</span>] } }
+  <div class="callout">
+    <strong>What follows:</strong> a code review video walking through the original artifact, then three
+    enhancement pages — each containing the original code, the enhanced code, the specific skills
+    demonstrated, and a reflective narrative — followed by a course outcomes summary mapping every
+    enhancement back to the five program outcomes.
+  </div>
 
-<span class="comment">// RBAC — protect mutating routes</span>
-POST /api/trips → verifyRole(<span class="str">'admin'</span>), tripsCreate
-PUT  /api/trips/:code → verifyRole(<span class="str">'admin'</span>), tripsUpdateOne
-GET  /api/trips → tripsReadAll  <span class="comment">// public</span>
-          </div>
-          <div class="outcomes-list">
-            <span class="outcome-tag">CO1 · Collaborative Environments</span>
-            <span class="outcome-tag">CO3 · Algorithmic Principles</span>
-            <span class="outcome-tag">CO4 · Innovative Techniques</span>
-            <span class="outcome-tag">CO5 · Security Mindset</span>
-          </div>
-        </div>
+  <div class="page-nav">
+    <span></span>
+    <a class="next" href="code-review.html"><span class="dir">Next →</span>Code Review</a>
+  </div>
+</section>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- OUTCOMES -->
-  <section id="outcomes">
-    <div class="section-inner">
-      <div class="section-label">// program alignment</div>
-      <h2 class="section-title">Course Outcomes</h2>
-      <div class="section-divider"></div>
-      <table class="outcomes-table">
-        <thead>
-          <tr>
-            <th>Outcome</th>
-            <th>Description</th>
-            <th>Demonstrated Through</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>CO1</td>
-            <td>Collaborative environments that enable diverse audiences to support organizational decision-making</td>
-            <td>Modular code structure, JSDoc/TSDoc comments, seed script enabling new developers to spin up instantly; code review walkthrough</td>
-          </tr>
-          <tr>
-            <td>CO2</td>
-            <td>Professional-quality oral, written, and visual communications</td>
-            <td>Code review video for mixed audiences, three written narratives, this self-assessment</td>
-          </tr>
-          <tr>
-            <td>CO3</td>
-            <td>Algorithmic principles and computer science practices with trade-off analysis</td>
-            <td>O(n) → O(1) Map migration, client-side vs server-side filtering rationale, embedding vs referencing discussion</td>
-          </tr>
-          <tr>
-            <td>CO4</td>
-            <td>Innovative techniques and tools to implement solutions that deliver value</td>
-            <td>Angular lazy loading, RxJS BehaviorSubject caching, Mongoose validators, JWT role embedding, debounced search</td>
-          </tr>
-          <tr>
-            <td>CO5</td>
-            <td>Security mindset that anticipates adversarial exploits and exposes potential vulnerabilities</td>
-            <td>Removing HBS (eliminates server-side template injection), RBAC middleware, schema-level validation, role-embedded JWT</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- GITHUB -->
-  <section id="github">
-    <div class="section-inner" style="display:flex;justify-content:center;">
-      <div class="github-card">
-        <div class="github-icon">⬡</div>
-        <h3>View the Code</h3>
-        <p>The Travlr Getaways MEAN stack application — all three enhancement categories on the <code>module7</code> branch.</p>
-        <a class="repo-link" href="https://github.com/Omar1997-SNHU/Fullstack-Dev" target="_blank" rel="noopener">
-          github.com/Omar1997-SNHU/Fullstack-Dev
-        </a>
-        <a class="btn btn-primary" href="https://github.com/Omar1997-SNHU/Fullstack-Dev" target="_blank" rel="noopener">
-          Open Repository ↗
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>Omar Barajas · CS 499 Computer Science Capstone · Southern New Hampshire University</p>
-  </footer>
+<footer>Omar Barajas · CS 499 Capstone · Southern New Hampshire University</footer>
 
 </body>
 </html>
