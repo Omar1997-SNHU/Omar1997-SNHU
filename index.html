@@ -53,16 +53,18 @@ Full-stack developer specializing in the MEAN stack — Angular, TypeScript, Nod
 
   <h3>Collaborating in a Team Environment</h3>
   <p>
-Throughout the program, courses like CS 250 (Software Development Lifecycle) and IT 315 (Object-Oriented Analysis and
-    Design) pushed me to produce design documentation meant for an audience beyond myself, things like UML diagrams,
-    sprint plans, and peer code reviews. IT 145 (Foundation in Application Development) is where I first practiced writing
-    code with a reader in mind, not just “whoever is future me”, and yeah that habit shows up directly in this capstone:
-    every enhanced file in the Travlr Getaways codebase includes JSDoc or TSDoc comments explaining not only what a 
-    function does, but also why it was written that way. That way a teammate who picks up the code six months from now 
-    does not have to reverse-engineer my reasoning , or guess what I intended. The code review video in this portfolio is, kinda,
-    a collaboration artifact more than anything else. It’s written for a manager or a peer audience, not a grader, and it walks
-    through what already exists before any enhancement is proposed. That’s the same order I would use to bring a real team up to
-    speed before touching shared code, honestly.
+In CS 255 (System Analysis and Design), I produced a full business requirements document and system design document for a 
+    client project—DriverPass, a driving-school platform using UML use case, activity, sequence, and class diagrams to give 
+    different stakeholders (students, secretaries, IT administrators) a shared picture of how the system would work, before a
+    single line of code was written. CS 230 (Software Design Document for "Draw It or Lose It") reinforced the same discipline
+    but from another angle: translating a client's platform-migration requirements into technology recommendations they could 
+    actually evaluate. It’s about balancing technical specifics against client-facing clarity, like getting the story straight
+    first,then details second. That habit shows up directly in this capstone: every enhanced file in the Travlr Getaways codebase 
+    carries JSDoc or TSDoc comments explaining not just what a function does but why it was written that way, so a teammate
+    picking up the code six months from now does not have to reverse-engineer my reasoning. The code review video in this 
+    portfolio is itself a collaboration artifact. It is written for a manager or peer audience, not a grader, and it walks through
+    existing functionality before any enhancement is proposed. It’s basically the same little sequence I would use to bring a real
+    team up to speed, before touching shared code or making changes.
   </p>
 
   <h3>Communicating with Stakeholders</h3>
@@ -74,7 +76,19 @@ Throughout the program, courses like CS 250 (Software Development Lifecycle) and
     for non-technical stakeholders, and I used that same approach again here when I justify why increasing password-
     hashing iterations from 1,000 to 100,000 matters even if someone has never heard of PBKDF2.
   </p>
-
+  
+<h3>Iterative Testing</h3>
+  <p>
+   CS 320 (Software Testing, Automation, and Quality Assurance) is where iterative, test-driven validation became a habit not
+    really an afterthought. In that course I made a JUnit test suite for a contact  management service ContactServiceTest.java
+    , covering more than just the happy path (adding, updating, and deleting a contact) , but also those edge cases that tend to
+    mess things up: duplicate ID rejection, null-input handling, and updates against an ID that doesn’t exist. Honestly, writing
+    tests that confirm an IllegalArgumentException gets thrown for invalid input, not only checking that valid input works, is the
+    same instinct I dragged into this capstone’s validation logic too. Like, the  Mongoose schema in Enhancement Three, rejects
+    negative prices and malformed emails at the data layer, for the same reason, catch the bad stuff early and in an explicit way 
+    instead of assuming the layer above already took care of it.
+  </p>
+  
   <h3>Data Structures and Algorithms</h3>
   <p>
    Enhancement Two is probably the clearest evidence of this strength. You get a Map based O(1) cache, a binary
@@ -87,29 +101,32 @@ Throughout the program, courses like CS 250 (Software Development Lifecycle) and
 
   <h3>Software Engineering and Database</h3>
   <p>
-Enhancement One shows software design maturity, like when you take a dual-rendering setup (Express/Handlebars
-    plus a separate Angular SPA) and kind of fold it into one lazy-loaded Angular front end, it is the same rough
-    class of architectural consolidation production teams do when technical debt slowly piles up. Enhancement Three
-    then extends that maturity down into the database layer, redesigning the Mongoose schema, adding compound indexes,
-    and migrating a price field from a String to a Number after noticing that the original type choice was quietly
-    messing up numeric sorting upstream in the Angular layer. DAD 220 (Introduction to SQL) gave me the relational
-    groundwork that made the trade-offs of a document-oriented schema easier to reason about, sort of helping me compare
-    when to embed versus reference and also why a type decision at the schema level can have consequences that no purely
-    relational analogy really prepared me for. CS 360 (Mobile Architecture and Programming) reinforced the same lesson from 
-    another angle, where data formatting decisions on a constrained client have to be intentional, not just inherited from 
-    whatever the backend happened to output. Seeing that schema-to-algorithm link in this capstone, like a database choice
-    creating a sorting bug two layers away, was honestly one of the most valuable realizations of the entire program.
+Enhancement One shows software design maturity moving a dual-rendering setup (Express/Handlebars and then a separate Angular
+    SPA) into a single lazy-loaded Angular front end is basically the same class of architectural consolidation that production
+    teams do when technical debt starts piling up. CS 340 (Client/Server Development) is where I first worked on that separation
+    deliberately, not just by accident: for Grazioso Salvare, a rescue-animal organization, I built a MongoDB-backed CRUD module
+    plus a dashboard. I split the database transaction logic from the dashboard’s presentation layer so the CRUD module could be
+    reused behind a different front end without edits. Enhancement Three carries that same instinct further in the Travlr Getaways
+    database layer redesigning the Mongoose schema, adding compound indexes, and migrating a price field from String to Number once
+    I realized the original type choice was quietly sabotaging numeric sorting a bit upstream in the Angular layer. Watching the
+    schema-to-algorithm connection play out in this capstone; like a database decision turning into a sorting bug two layers away.
+    That was the clearest version yet of the lesson CS 340 taught me: where you draw the boundary between a database layer and the
+    code that consumes it is what ultimately decides how much of the system breaks when one side changes.
   </p>
 
   <h3>Security</h3>
   <p>
-    A security mindset shows up across all three enhancements, not just in one place. Removing the Handlebars
-    rendering layer in Enhancement One reduces a server-side template injection surface. The sort allowlist in
-    Enhancement Two’s API controller prevents arbitrary field injection into a MongoDB .sort() call. Enhancement
-    Three also directly tightens authentication, PBKDF2 iterations were raised to match current NIST guidance, 
-    and an account ,lockout mechanism was added to resist credential-stuffing attacks. CS 305 (Software Security)
-    gave me the foundation for this kind of thinking treating every input boundary as a place an adversary might
-    probe  and this capstone  is where that foundation became a habit applied without being prompted.
+    A security mindset threads through all three enhancements, rather than living in just one place. In Enhancement One, removing the
+    Handlebars rendering layer wipes out a server-side template injection surface, straightforward, but also easy to overlook if you only
+    check outcomes. Then Enhancement Two , with its API controller sort allowlist, stops arbitrary field injection into a  MongoDB .sort()
+    call so you don’t end up “sorting” whatever an attacker feels like. Enhancement Three tightens authentication directly: the PBKDF2
+    iterations got raised to align with current NIST guidance, and an account lockout mechanism was added to resist credential-stuffing attempts. 
+
+CS 305 (Software Security) is where that sort of thinking became a habit, not a checklist. For Artemis Financial , a client handling private
+    financial data, I ran the OWASP Dependency-Check tool on the codebase, worked through the report to split out actual issues from false 
+    positives, then patched dependencies and enforced TLS for data in transit. After that I repeated the scan after each fix, just to confirm
+    nothing new had been introduced. That same iterative cycle of scan, patch, re-verify, document is what shaped how I handled hardening the
+    Travlr Getaways authentication system in Enhancement Three, instead of treating the PBKDF2 iteration count as a one-time tweak to bump and forget.
   </p>
 
   <h3>How the Artifacts Fit Together</h3>
